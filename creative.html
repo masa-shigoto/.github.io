@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>masa - Creative Portfolio</title>
+    <style>
+        /* クリエイティブ版（アシンメトリー＆ダーク/ネオン） */
+        :root {
+            --bg: #09090b;
+            --text: #f8fafc;
+            --neon: #38bdf8;
+            --neon-pink: #f472b6;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background-color: var(--bg); color: var(--text);
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.15), transparent 25%),
+                              radial-gradient(circle at 85% 30%, rgba(244, 114, 182, 0.15), transparent 25%);
+        }
+        
+        .demo-banner {
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            color: #fff; text-align: center; padding: 0.5rem; font-size: 0.85rem;
+            position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .demo-banner a { color: var(--neon); font-weight: bold; text-decoration: none; margin: 0 10px; }
+        .demo-banner a:hover { text-shadow: 0 0 10px var(--neon); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 5%; position: relative; }
+        
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 50px; }
+        .hero-text { position: relative; z-index: 10; mix-blend-mode: difference; }
+        .hero h1 {
+            font-size: 6rem; line-height: 0.9; text-transform: uppercase;
+            letter-spacing: -3px; font-weight: 900;
+        }
+        .hero h1 span { color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.5); display: block; }
+        .hero p { font-size: 1.5rem; margin-top: 2rem; max-width: 400px; border-left: 3px solid var(--neon-pink); padding-left: 1rem; }
+        
+        .hero-img {
+            position: absolute; right: 5%; bottom: 0; width: 45%; max-width: 600px; z-index: 1;
+            filter: grayscale(100%) contrast(1.2); transition: filter 0.5s;
+        }
+        .hero-img:hover { filter: grayscale(0%) drop-shadow(0 0 30px rgba(56,189,248,0.5)); }
+
+        .marquee {
+            width: 100%; background: var(--text); color: var(--bg); padding: 1rem 0;
+            white-space: nowrap; overflow: hidden; position: relative; transform: rotate(-2deg); margin: 4rem 0;
+        }
+        .marquee span {
+            display: inline-block; padding-left: 100%; font-size: 2rem; font-weight: 800; text-transform: uppercase;
+            animation: marquee 15s linear infinite;
+        }
+        @keyframes marquee { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
+
+        .grid-broken { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; padding: 5rem 0; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); padding: 3rem; border-radius: 10px; backdrop-filter: blur(10px); }
+        .card:nth-child(2) { transform: translateY(50px); border-color: rgba(56,189,248,0.3); }
+        h2 { font-size: 3rem; margin-bottom: 2rem; }
+        
+        /* カスタムカーソルエフェクト */
+        .cursor-follower {
+            position: fixed; width: 300px; height: 300px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(244,114,182,0.1) 0%, transparent 70%);
+            pointer-events: none; z-index: 0; transform: translate(-50%, -50%); transition: transform 0.1s ease-out;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="cursor-follower" id="follower"></div>
+
+    <div class="demo-banner">
+        現在のデザイン：<strong>Creative (クリエイティブ/Web3風)</strong> | 他のデザインを見る： 
+        <a href="index.html">🏠 Standard (通常版)</a> | 
+        <a href="corporate.html">🏢 Corporate (企業向け)</a>
+    </div>
+
+    <section class="hero container">
+        <div class="hero-text">
+            <h1>masa<br><span>Web & Video</span><br>Creator</h1>
+            <p>150+ Projects. Code × Video Solutions.</p>
+        </div>
+        <img src="立ち画像.png" alt="masa" class="hero-img">
+    </section>
+
+    <div class="marquee">
+        <span>#HTML5 #CSS3 #JavaScript #GoogleAppsScript #AdobePremierePro #Vrew #VideoEditing #Automation</span>
+    </div>
+
+    <section class="container grid-broken">
+        <div class="card">
+            <h2 style="color:var(--neon)">Who I Am</h2>
+            <p>IT専門学校での徹底したコーディング学習と、150件を超える多様な実務経験。高度IT資格（応用情報技術者、情報処理安全確保支援士）の知見をベースに、セキュアで革新的なデジタル表現を追求しています。</p>
+        </div>
+        <div class="card">
+            <img src="背景アリ.png" alt="Work" style="width: 100%; border-radius: 5px; opacity: 0.8;">
+            <h2 style="color:var(--neon-pink); margin-top: 1rem;">Work</h2>
+            <p>福島県省エネ家電購入支援事業（第2弾） 特設サイトなど多数。デザインからインフラまで完結させるディレクション体制。</p>
+        </div>
+    </section>
+
+    <script>
+        // カスタムカーソル追従
+        const follower = document.getElementById('follower');
+        document.addEventListener('mousemove', (e) => {
+            follower.style.left = e.clientX + 'px';
+            follower.style.top = e.clientY + 'px';
+        });
+    </script>
+</body>
+</html>

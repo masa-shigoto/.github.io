@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="ja" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>masa - Standard Portfolio</title>
+    <style>
+        /* 1. テーマ変数の定義（ライト、ダーク、ポップ） */
+        :root[data-theme="light"] {
+            --primary: #111827;
+            --secondary: #4b5563;
+            --accent: #2563eb;
+            --bg-light: #f9fafb;
+            --white: #ffffff;
+            --border: #e5e7eb;
+        }
+        :root[data-theme="dark"] {
+            --primary: #f9fafb;
+            --secondary: #9ca3af;
+            --accent: #60a5fa;
+            --bg-light: #1f2937;
+            --white: #111827;
+            --border: #374151;
+        }
+        :root[data-theme="pop"] {
+            --primary: #1e1b4b;
+            --secondary: #4c1d95;
+            --accent: #ec4899;
+            --bg-light: #fdf2f8;
+            --white: #ffffff;
+            --border: #fbcfe8;
+        }
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', 'Helvetica Neue', Arial, sans-serif;
+            color: var(--primary);
+            background-color: var(--white);
+            line-height: 1.7;
+            transition: background-color 0.5s, color 0.5s; /* テーマ切り替え時のアニメーション */
+            overflow-x: hidden;
+        }
+
+        /* 2. デモ画面切り替えバナー */
+        .demo-banner {
+            background: linear-gradient(90deg, #111827, #374151);
+            color: #fff;
+            text-align: center;
+            padding: 0.5rem;
+            font-size: 0.85rem;
+            position: fixed;
+            top: 0; width: 100%; z-index: 2000;
+        }
+        .demo-banner a {
+            color: #60a5fa; font-weight: bold; text-decoration: none; margin: 0 10px;
+            transition: color 0.2s;
+        }
+        .demo-banner a:hover { color: #93c5fd; text-decoration: underline; }
+
+        /* 4. スクロールアニメーション用のクラス */
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* UI Styles */
+        header {
+            position: fixed; top: 35px; width: 100%;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 1000; transition: background-color 0.5s;
+        }
+        .nav-container { display: flex; justify-content: space-between; align-items: center; height: 70px; max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+        .logo { font-size: 1.5rem; font-weight: 800; letter-spacing: -0.05em; color: var(--primary); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a { text-decoration: none; color: var(--secondary); font-weight: 500; transition: color 0.2s; }
+        .nav-links a:hover { color: var(--accent); }
+
+        .container { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+        section { padding: 8rem 0; }
+
+        .hero { padding-top: 150px; padding-bottom: 80px; background-color: var(--bg-light); position: relative; transition: background-color 0.5s; }
+        .hero-banner { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0.08; background-image: url('背景アリ.png'); background-size: cover; background-position: center; }
+        .hero-content { position: relative; z-index: 1; display: flex; align-items: center; justify-content: space-between; gap: 4rem; }
+        .hero-text h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .hero-text h1 span { display: block; font-size: 1.25rem; color: var(--accent); margin-bottom: 0.5rem; }
+        .hero-text p { font-size: 1.1rem; margin-bottom: 2rem; color: var(--secondary); max-width: 500px; }
+        .hero-image img { max-width: 100%; max-height: 500px; filter: drop-shadow(0 20px 30px rgba(0,0,0,0.1)); transition: transform 0.5s; }
+        .hero-image:hover img { transform: scale(1.02); }
+
+        .btn { display: inline-flex; align-items: center; padding: 1rem 2.5rem; background-color: var(--primary); color: var(--bg-light); text-decoration: none; border-radius: 50px; font-weight: 600; transition: all 0.3s; }
+        .btn:hover { background-color: var(--accent); transform: translateY(-2px); }
+
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; margin-bottom: 1rem; color: var(--primary); }
+        .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start; }
+        .about-image { border-radius: 20px; overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.08); position: relative; }
+        .about-image img { width: 100%; height: auto; display: block; object-fit: cover; aspect-ratio: 4/3; }
+        .strength-item { margin-bottom: 2rem; padding-left: 1.5rem; border-left: 3px solid var(--accent); }
+        .strength-item h4 { font-size: 1.1rem; color: var(--primary); }
+
+        .skills-section { background-color: var(--bg-light); transition: background-color 0.5s; }
+        .skill-group { background: var(--white); padding: 3rem; border-radius: 20px; margin-bottom: 2rem; border: 1px solid var(--border); transition: all 0.5s; }
+        .tags { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+        .tag { background: var(--bg-light); color: var(--secondary); padding: 0.5rem 1.25rem; border-radius: 50px; border: 1px solid var(--border); transition: all 0.3s; }
+        .tag:hover { background: var(--accent); color: #fff; border-color: var(--accent); transform: translateY(-3px); }
+
+        .project-card { background: var(--white); border-radius: 20px; border: 1px solid var(--border); transition: all 0.3s; overflow: hidden; }
+        .project-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.1); transform: translateY(-5px); }
+        .project-body { padding: 3rem; }
+        .project-role { font-size: 0.85rem; color: var(--accent); font-weight: 700; margin-bottom: 0.5rem; display: block; }
+        .tech-stack { margin: 2rem 0; padding: 2rem; background: var(--bg-light); border-radius: 12px; }
+        .project-link { display: inline-flex; align-items: center; color: var(--primary); font-weight: 600; text-decoration: none; padding: 1rem 2rem; border: 1px solid var(--border); border-radius: 50px; transition: all 0.2s; }
+        .project-link:hover { color: var(--accent); border-color: var(--accent); }
+
+        /* テーマ変更ボタン（右下固定） */
+        .theme-toggle-btn {
+            position: fixed; bottom: 30px; right: 30px; z-index: 2000;
+            background: var(--primary); color: var(--bg-light); padding: 0 1.5rem; height: 60px;
+            border-radius: 30px; display: flex; justify-content: center; align-items: center; gap: 10px;
+            cursor: pointer; box-shadow: 0 10px 25px rgba(0,0,0,0.2); border: none; font-size: 1rem;
+            font-weight: bold; transition: all 0.3s;
+        }
+        .theme-toggle-btn:hover { transform: scale(1.05); background: var(--accent); }
+    </style>
+</head>
+<body>
+    <!-- デモ用ナビゲーション -->
+    <div class="demo-banner">
+        現在のデザイン：<strong>Standard (モダン/アニメーション/テーマ切替)</strong> | 他のデザインを見る： 
+        <a href="creative.html">🎨 Creative (ダーク・アシンメトリー)</a> | 
+        <a href="corporate.html">🏢 Corporate (企業向け)</a>
+    </div>
+
+    <header>
+        <div class="container nav-container">
+            <div class="logo">masa.</div>
+            <nav class="nav-links">
+                <a href="#about">About</a>
+                <a href="#skills">Skills</a>
+                <a href="#projects">Work</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <!-- ヒーローセクション -->
+        <section class="hero">
+            <div class="hero-banner animate-on-scroll"></div>
+            <div class="container hero-content">
+                <div class="hero-text animate-on-scroll">
+                    <h1>
+                        <span>Web Engineer & Video Creator</span>
+                        ITに強い<br>クリエイター
+                    </h1>
+                    <p style="color: #ffffff; font-weight: 700; text-shadow: 1.5px 1.5px 0 #000, -1.5px -1.5px 0 #000, 1.5px -1.5px 0 #000, -1.5px 1.5px 0 #000, 0 4px 10px rgba(0,0,0,0.4);">札幌を拠点に活動。150件を超える実務経験と徹底したプログラミングスキルで、論理的かつ精度の高い制作を行います。</p>
+                    <a href="#projects" class="btn">View My Work</a>
+                </div>
+                <div class="hero-image animate-on-scroll" style="transition-delay: 0.2s;">
+                    <img src="立ち画像.png" alt="masa">
+                </div>
+            </div>
+        </section>
+
+        <!-- Aboutセクション -->
+        <section id="about">
+            <div class="container">
+                <div class="section-header animate-on-scroll">
+                    <h2>About Me</h2>
+                    <p>ビジネスの成長を支援する、技術とクリエイティブのパートナー。</p>
+                </div>
+                <div class="about-grid">
+                    <div class="about-image animate-on-scroll">
+                        <img src="背景アリ.png" alt="Background Profile">
+                    </div>
+                    <div class="about-text animate-on-scroll" style="transition-delay: 0.2s;">
+                        <p>IT専門学校での徹底したコーディング学習と、150件を超える多様な実務経験を活かし、高度なITスキルと動画制作を掛け合わせたソリューションを提します。</p>
+                        <h3 style="margin: 2rem 0 1.5rem;">💡 専門性と強み</h3>
+                        <div class="strength-item">
+                            <h4>確かな技術基盤</h4>
+                            <p style="color:var(--secondary)">高度IT資格を保持。システム全体の仕組みを理解したセキュアな設計が可能です。</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Skillsセクション -->
+        <section id="skills" class="skills-section">
+            <div class="container animate-on-scroll">
+                <div class="section-header">
+                    <h2>Skills & Tools</h2>
+                    <p>Web技術から動画編集、AI・自動化まで幅広い技術スタックを活用します。</p>
+                </div>
+                
+                <div class="skill-group animate-on-scroll" style="transition-delay: 0.1s;">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">プログラミング言語・フレームワーク</h3>
+                    <div class="tags">
+                        <span class="tag">HTML5</span>
+                        <span class="tag">CSS3</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">Google Apps Script (GAS)</span>
+                        <span class="tag">Java</span>
+                        <span class="tag">Python</span>
+                    </div>
+                </div>
+                
+                <div class="skill-group animate-on-scroll" style="transition-delay: 0.2s;">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">動画編集・デザインツール</h3>
+                    <div class="tags">
+                        <span class="tag">Adobe Premiere Pro</span>
+                        <span class="tag">Vrew</span>
+                        <span class="tag">Adobe Illustrator</span>
+                        <span class="tag">Adobe Photoshop</span>
+                    </div>
+                </div>
+                
+                <div class="skill-group animate-on-scroll" style="transition-delay: 0.3s;">
+                    <h3 style="margin-bottom: 1rem; color: var(--primary);">自動化・AIツール</h3>
+                    <div class="tags">
+                        <span class="tag">n8n</span>
+                        <span class="tag">ChatGPT</span>
+                        <span class="tag">各種生成AI</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- プロジェクトセクション -->
+        <section id="projects">
+            <div class="container animate-on-scroll">
+                <div class="section-header">
+                    <h2>Featured Work & Video Portfolio</h2>
+                </div>
+                
+                <!-- 動画ポートフォリオ -->
+                <div class="project-card" style="margin-bottom: 3rem;">
+                    <div class="project-body">
+                        <span class="project-role">Video Portfolio</span>
+                        <h3 style="font-size:1.8rem; margin-bottom:1rem;">ポートフォリオ動画</h3>
+                        <p style="margin-bottom: 1.5rem;">ご挨拶と自己紹介、実績をまとめた動画です。</p>
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000;">
+                            <iframe src="https://www.youtube.com/embed/pLgU80KACbo" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 動画制作の実績 -->
+                <div class="project-card" style="margin-bottom: 3rem;">
+                    <div class="project-body">
+                        <span class="project-role">Video Editing (Client Work)</span>
+                        <h3 style="font-size:1.8rem; margin-bottom:1rem;">動画編集 実案件デモ</h3>
+                        <p style="margin-bottom: 1.5rem;">Adobe Premiere Pro等を使用した実際の編集事例です。</p>
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 10px; background: #000;">
+                            <iframe src="https://www.youtube.com/embed/6AB_jUlvFeM" style="position: absolute; top:0; left: 0; width: 100%; height: 100%;" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- WEB制作の実績 -->
+                <div class="project-card">
+                    <div class="project-body">
+                        <span class="project-role">Web Direction / Design / Coding</span>
+                        <h3 style="font-size:1.8rem; margin-bottom:1rem;">福島県省エネ家電購入支援事業 特設サイト</h3>
+                        <p>幅広いユーザーが迷わず申請できるアクセシビリティを重視し、安定稼働を意識したインフラ設計も担当。</p>
+                        <div class="tech-stack">
+                            <strong>Technology:</strong> HTML5, CSS3, JavaScript, Illustrator, Photoshop
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- テーマ切り替えボタン -->
+    <button class="theme-toggle-btn" onclick="toggleTheme()" title="テーマを変更する">
+        🎨 <span>デザイン着せ替え</span>
+    </button>
+
+    <script>
+        // 1. テーマ切り替え機能
+        const themes = ['light', 'dark', 'pop'];
+        let currentThemeIndex = 0;
+        function toggleTheme() {
+            currentThemeIndex = (currentThemeIndex + 1) % themes.length;
+            document.documentElement.setAttribute('data-theme', themes[currentThemeIndex]);
+        }
+
+        // 4. スクロール監視（アニメーション）
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    // 一度表示されたら監視を解除（下スクロールの時だけ発火）
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
+
+        document.querySelectorAll('.animate-on-scroll').forEach((el) => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

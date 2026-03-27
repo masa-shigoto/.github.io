@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>masa - Corporate Profile</title>
+    <style>
+        /* コーポレート版（お堅い企業向け・信頼感重視） */
+        :root {
+            --corp-blue: #0f3f6e;
+            --corp-gray: #f4f5f7;
+            --corp-text: #222222;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Yu Mincho', 'MS Mincho', serif; color: var(--corp-text); line-height: 1.8; background: #fff; }
+        
+        .demo-banner {
+            background: #e2e8f0; color: #333; text-align: center; padding: 0.5rem; font-size: 0.85rem;
+            position: fixed; top: 0; width: 100%; z-index: 2000; border-bottom: 1px solid #cbd5e1; font-family: sans-serif;
+        }
+        .demo-banner a { color: var(--corp-blue); font-weight: bold; text-decoration: none; margin: 0 10px; }
+        
+        header { border-bottom: 3px solid var(--corp-blue); padding: 50px 0 20px; background: #fff; text-align: center; }
+        .corp-logo { font-size: 2rem; letter-spacing: 5px; color: var(--corp-blue); font-family: sans-serif; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
+        h1, h2, h3 { font-family: 'Yu Mincho', 'MS Mincho', serif; color: var(--corp-blue); border-left: 5px solid var(--corp-blue); padding-left: 15px; margin: 40px 0 20px; }
+        
+        .profile-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-family: sans-serif; }
+        .profile-table th, .profile-table td { padding: 15px; border-bottom: 1px solid #ddd; }
+        .profile-table th { width: 20%; text-align: left; background: var(--corp-gray); font-weight: normal; }
+
+        .greeting { display: flex; gap: 30px; align-items: flex-start; margin-top: 40px; }
+        .greeting img { width: 250px; border: 1px solid #ccc; padding: 5px; }
+
+        .btn-contact { display: block; width: 300px; margin: 50px auto; padding: 15px; text-align: center; background: var(--corp-blue); color: #fff; text-decoration: none; font-family: sans-serif; border-radius: 3px; }
+        .btn-contact:hover { background: #0a2d52; }
+    </style>
+</head>
+<body>
+    <div class="demo-banner">
+        現在のデザイン：<strong>Corporate (企業向け/明朝体)</strong> | 他のデザインを見る： 
+        <a href="index.html">🏠 Standard (通常版)</a> | 
+        <a href="creative.html">🎨 Creative (クリエイティブ風)</a>
+    </div>
+
+    <header>
+        <div class="corp-logo">masa. 事務所 (仮)</div>
+        <p style="font-family: sans-serif; color: #666; font-size: 0.9rem; margin-top:5px;">ITシステム開発・動画制作事業</p>
+    </header>
+
+    <main class="container">
+        <h2>代表挨拶</h2>
+        <div class="greeting">
+            <img src="立ち画像.png" alt="代表">
+            <div>
+                <p>平素は格別のお引き立てを賜り、厚く御礼申し上げます。</p>
+                <p>私はIT専門学校で培った確かな技術基盤と、応用情報技術者などの高度IT資格、そして150件を超える実務実績のもと、お客様のビジネスの課題解決に真摯に向き合ってまいりました。</p>
+                <p>システム開発から動画制作、そして業務自動化に至るまで、幅広い領域で「翌々日納品」を信条とする迅速かつ的確なサービスを提供しております。</p>
+            </div>
+        </div>
+
+        <h2>事業概要・スキル領域</h2>
+        <table class="profile-table">
+            <tr>
+                <th>対応領域</th>
+                <td>Webシステム開発 / 動画制作・編集 / 業務自動化（GAS・n8n）</td>
+            </tr>
+            <tr>
+                <th>保有資格</th>
+                <td>応用情報技術者 / 情報処理安全確保支援士</td>
+            </tr>
+            <tr>
+                <th>主要実績</th>
+                <td>福島県省エネ家電購入支援事業（第2弾） 特設サイト構築・運用ディレクション<br>EC機材画像制作、広告運用等（計150件以上）</td>
+            </tr>
+            <tr>
+                <th>開発技術</th>
+                <td>HTML / CSS / JavaScript / Java / Python</td>
+            </tr>
+            <tr>
+                <th>開発ツール</th>
+                <td>Adobe Premiere Pro / Illustrator / Photoshop / Vrew</td>
+            </tr>
+        </table>
+
+        <a href="mailto:masa.shigoto.douga@gmail.com" class="btn-contact">お問い合わせ</a>
+    </main>
+
+</body>
+</html>
