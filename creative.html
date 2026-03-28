@@ -68,6 +68,25 @@
             pointer-events: none; z-index: 0; transform: translate(-50%, -50%); transition: transform 0.1s ease-out;
         }
 
+        /* スマホ（モバイル）対応 */
+        @media (max-width: 768px) {
+            .demo-banner { font-size: 0.75rem; padding: 0.4rem; display: flex; flex-direction: column; gap: 4px; }
+            .hero { flex-direction: column; justify-content: center; text-align: center; padding-top: 80px; min-height: auto; padding-bottom: 40px; }
+            .hero-text { margin-top: 40px; }
+            .hero h1 { font-size: 3.5rem; line-height: 1; }
+            .hero p { font-size: 1.2rem; border-left: none; border-bottom: 3px solid var(--neon-pink); padding-left: 0; padding-bottom: 1rem; margin: 1.5rem auto; text-align: center; }
+            .hero-img { position: relative; width: 80%; max-width: 300px; margin: 2rem auto 0; opacity: 0.8; right: auto; filter: grayscale(0%); }
+            
+            .marquee { margin: 2rem 0; }
+            .marquee span { font-size: 1.5rem; animation-duration: 20s; }
+            
+            .grid-broken { grid-template-columns: 1fr; padding: 3rem 0; gap: 1.5rem; }
+            .card { padding: 1.5rem; }
+            .card:nth-child(2) { transform: translateY(0); }
+            h2 { font-size: 2rem; margin-bottom: 1rem; }
+            
+            .cursor-follower { display: none; }
+        }
     </style>
 </head>
 <body>
